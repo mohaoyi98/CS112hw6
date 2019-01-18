@@ -1,0 +1,55 @@
+Problem 1.
+
+1. The height of this tree is 3.
+
+2. It has 4 leaf nodes and 5 interior nodes.
+
+3. 21 18 7 25 19 27 30 26 35
+
+4. 7 19 25 18 26 35 30 27 21
+
+5. 21 18 27 7 25 30 19 26 35
+
+6. No, it isn't. If this tree is a search tree, it would be a binary search tree. Therefore, all the nodes in the left subtree of node 21 will have keys less than 21. However, node 25 is in the left subtree of node 21 and 25 > 21. Thus, this tree cannot be a search tree.
+
+7. No, it isn't. The left subtree of node 27 is empty, whose height is essentially -1, while the height of the right subtree of node 27 is 1, and the difference between 1 and -1 is 2 > 1, which violates the definition of a balanced tree.
+
+
+Problem 4.
+
+1. 
+Best case: O(1); worst case (balanced): O(n); worst case (not balanced): O(n). 
+The best case is that the root node is just the node that we want, so there is no recursive case and the operation is just constant times of comparasion. So, O(1). (or, the tree is empty and the depthInTree method is not called; or, the tree has only one node; but in either case, the efficiency is still O(1)).
+The worst case of a balanced tree is that the node we want is not in the tree, and we have to carry out both of the recursive cases. Let the actual operation of the algorithm working on a tree of n nodes be T(n). Then, T(n) roughly = 2T(n/2), and T(1) = c (some constant). Thus, T(n) = c * 2 * 2 * ... * 2 (log2(n) 2's) = c * 2 ^ (log2(n)) = c*n. Then, the efficiency is O(n).
+The worst case of an unbalanced tree is that the tree is just a linked list and also, the node we want is not in the tree. In this case, T(n) roughly = c + T(n-1), and T(1) = c (some constant). Thus, T(n) = n*c. Then, the efficiency is also O(n).
+
+2. 
+    private static int depthInTree(int key, Node root) {
+    	    	
+        if (key == root.key) {
+            return 0;
+        }
+        
+        int depthInSubtree;
+        
+        if (key < root.key && root.left != null) {
+        	depthInSubtree = depthInTree(key, root.left);
+        } else if (key > root.key && root.right != null) {
+        	depthInSubtree = depthInTree(key, root.right);
+        } else {
+        	return -1;
+        }
+        
+        if (depthInSubtree == -1) {
+        	return -1;
+        } else {
+        	return depthInSubtree + 1;
+        }
+        
+    }
+
+3. 
+Best case: O(1); worst case (balanced): O(logn); worst case (not balanced): O(n).
+The best cases can be a: the tree is empty; b: the root is the node we want; c: the node we want has a key greater (less) than the root's key while the root does not have a right (left) subtree. In either case, we can finish our algorithm in O(1) time.
+The worst case of a balanced tree is that the node we want has a key greater (or less) than the key of any node in the tree. Therefore, we have to traverse half of the tree to realize that it does not exist. So T(n) = c * log2(n), and efficiency = O(logn).
+The worst case of an unbalanced tree is that the node we want has a key greater (or less) than the key of any node in the tree, and meanwhile, the tree is just a linked list with ascending (descending) keys. Here, we have to traverse the whole tree to realize that it does not exist. So T(n) = c * n, and efficiency = O(n).
